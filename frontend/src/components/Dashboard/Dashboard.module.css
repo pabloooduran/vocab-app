@@ -1,0 +1,236 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(160deg, var(--cream) 0%, var(--beige) 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+  background: white;
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.brand {}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--dark-warm);
+}
+
+.userArea {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.username {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.logoutBtn {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  background: none;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+
+.logoutBtn:hover {
+  background: var(--sand);
+  color: var(--text-primary);
+}
+
+.main {
+  flex: 1;
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.welcome {
+  animation: slide-up 0.35s ease-out;
+}
+
+.welcomeText {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.welcomeSub {
+  color: var(--text-secondary);
+  margin-top: 6px;
+  font-size: 1rem;
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  animation: slide-up 0.4s ease-out 0.05s both;
+}
+
+.statCard {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 20px 16px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.statValue {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--amber);
+}
+
+.statLabel {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+/* Streak badge */
+.streakBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  justify-content: center;
+  background: var(--sand);
+  border: 2px solid var(--warm-tan);
+}
+
+.streakNumber {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--dark-warm);
+  line-height: 1;
+}
+
+.streakLabel {
+  font-size: 0.6rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.base {}
+
+.pulse {
+  background: linear-gradient(135deg, var(--sand), var(--warm-tan));
+  border-color: var(--amber);
+  animation: pulse-amber 2s infinite;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, var(--warm-tan), var(--gold), var(--amber), var(--gold), var(--warm-tan));
+  background-size: 200% 100%;
+  border-color: var(--gold);
+  animation: shimmer-gold 2.5s linear infinite;
+}
+
+.shimmer .streakNumber {
+  color: white;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.radiant {
+  background: linear-gradient(135deg, var(--gold), var(--amber));
+  border-color: var(--gold);
+  animation: radiant-glow 1.8s ease-in-out infinite;
+}
+
+.radiant .streakNumber {
+  color: white;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 16px;
+  animation: slide-up 0.4s ease-out 0.1s both;
+}
+
+.playBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 24px;
+  background: var(--amber);
+  color: white;
+  border-radius: var(--radius-md);
+  font-size: 1.05rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition);
+}
+
+.playBtn:hover {
+  background: var(--dark-warm);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.playIcon {
+  font-size: 0.85rem;
+}
+
+.statsBtn {
+  padding: 18px 28px;
+  background: white;
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 1.5px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+}
+
+.statsBtn:hover {
+  border-color: var(--warm-tan);
+  background: var(--beige);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+  .statsRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .header {
+    padding: 16px 20px;
+  }
+  .main {
+    padding: 32px 16px;
+  }
+}

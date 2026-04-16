@@ -1,0 +1,106 @@
+/* ── CSS Variables ── */
+:root {
+  --cream: #FDF8F0;
+  --beige: #F5E6D3;
+  --sand: #E8D5B7;
+  --warm-tan: #D4A96A;
+  --amber: #C8901A;
+  --gold: #DAA520;
+  --dark-warm: #5C4A2A;
+
+  --text-primary: #3D2B1F;
+  --text-secondary: #7A5C40;
+  --text-muted: #A08060;
+
+  --success: #5C8A4A;
+  --success-bg: #EEF6E8;
+  --error: #9B3A2E;
+  --error-bg: #FAEAE8;
+
+  --border: #E0C9A6;
+  --border-focus: #C8901A;
+
+  --shadow-sm: 0 1px 3px rgba(92, 74, 42, 0.12);
+  --shadow-md: 0 4px 12px rgba(92, 74, 42, 0.15);
+  --shadow-lg: 0 8px 32px rgba(92, 74, 42, 0.2);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  --font-serif: 'Lora', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --transition: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--cream);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-sans);
+  border: none;
+  outline: none;
+}
+
+input {
+  font-family: var(--font-sans);
+  outline: none;
+}
+
+/* ── Streak animations ── */
+@keyframes pulse-amber {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200, 144, 26, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(200, 144, 26, 0); }
+}
+
+@keyframes shimmer-gold {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes radiant-glow {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(218, 165, 32, 0.6), 0 0 20px rgba(218, 165, 32, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(218, 165, 32, 0.9), 0 0 40px rgba(218, 165, 32, 0.5);
+    transform: scale(1.04);
+  }
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  70% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
