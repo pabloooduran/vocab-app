@@ -78,7 +78,7 @@ async function seedVocabulary() {
   const result = await query('SELECT COUNT(*) as cnt FROM vocabulary');
   if (parseInt(result.rows[0].cnt) > 0) return;
 
-  const vocabPath = path.join(__dirname, 'data', 'gre_vocab.json');
+  const vocabPath = path.join(__dirname, '..', 'data', 'gre_vocab.json');
   if (!fs.existsSync(vocabPath)) {
     console.warn('Vocabulary JSON not found.');
     return;
