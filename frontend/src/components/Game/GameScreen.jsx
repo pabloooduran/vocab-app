@@ -108,7 +108,7 @@ export default function GameScreen() {
             <div className={styles.questionCard}>
               <p className={styles.questionLabel}>What word matches this definition?</p>
               <p className={styles.definition}>{question.definition}</p>
-              {question.example && (
+              {phase === PHASE.FEEDBACK && question.example && (
                 <p className={styles.example}>"{question.example}"</p>
               )}
             </div>
@@ -122,7 +122,7 @@ export default function GameScreen() {
                   disabled={phase === PHASE.FEEDBACK}
                 >
                   <span className={styles.optionWord}>{opt.word}</span>
-                  {opt.translation && (
+                  {phase === PHASE.FEEDBACK && opt.translation && (
                     <span className={styles.optionTranslation}>{opt.translation}</span>
                   )}
                 </button>
