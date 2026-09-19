@@ -1,6 +1,6 @@
-# GRE Vocab
+# Vocab app
 
-A web application for studying GRE vocabulary through adaptive multiple-choice questions. Built with React, Node.js/Express, and PostgreSQL. Deployed on Vercel (frontend) and Railway (backend).
+A web application for studying english vocabulary through adaptive multiple-choice questions. Built with React, Node.js/Express, and PostgreSQL. Deployed on Vercel (frontend) and Railway (backend).
 
 **Live app:** https://vocab-app-two-pi.vercel.app
 
