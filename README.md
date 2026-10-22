@@ -1,8 +1,10 @@
 # Vocab app
 
-A web application for studying english vocabulary through adaptive multiple-choice questions. Built with React, Node.js/Express, and PostgreSQL. Deployed on Vercel (frontend) and Railway (backend).
+A web application for studying english vocabulary through adaptive multiple-choice questions. Built with React, Node.js/Express, and PostgreSQL. Deployed on Vercel (frontend), Render (backend) and Neon (database), all on free plans.
 
 **Live app:** https://vocab-app-two-pi.vercel.app
+
+> The backend runs on Render's free plan and sleeps after 15 minutes without traffic. The app pings it as soon as it opens, but the first sign-in after a quiet period can still take up to a minute.
 
 ---
 
@@ -23,10 +25,10 @@ A web application for studying english vocabulary through adaptive multiple-choi
 |---|---|
 | Frontend | React 18, React Router v6, Vite 5, CSS Modules |
 | Backend | Node.js, Express.js |
-| Database | PostgreSQL (Supabase) |
+| Database | PostgreSQL (Neon) |
 | Auth | JWT (30-day tokens), bcrypt password hashing |
 | Frontend hosting | Vercel |
-| Backend hosting | Railway |
+| Backend hosting | Render |
 
 ---
 
@@ -48,7 +50,7 @@ gre-vocab-app/
 │   │   ├── utils/
 │   │   │   └── distractors.js      # Semantic clustering & distractor selection algorithm
 │   │   └── data/
-│   │       └── gre_vocab.json      # ~2700 GRE words with definitions, translations, synonyms
+│   │       └── gre_vocab.json      # ~1,080 GRE words with definitions, translations, synonyms
 │   ├── .env.example
 │   └── package.json
 │
@@ -66,7 +68,7 @@ gre-vocab-app/
 │   │       ├── Dashboard/          # Home screen with stats and streak display
 │   │       ├── Game/               # Game loop: question → answer → feedback
 │   │       └── Stats/              # Word-by-word history with filters
-│   ├── .env.production             # VITE_API_URL pointing to Railway backend
+│   ├── .env.production             # VITE_API_URL pointing to the Render backend
 │   ├── vite.config.js
 │   └── package.json
 │
@@ -85,14 +87,14 @@ Vercel  ─── React SPA (static)
   │
   │  HTTPS requests to /api/*
   ▼
-Railway  ─── Express REST API
+Render  ─── Express REST API
   │
-  │  PostgreSQL connection (Session Pooler)
+  │  PostgreSQL connection (pooled, TLS)
   ▼
-Supabase  ─── PostgreSQL database
+Neon  ─── PostgreSQL database
 ```
 
-The frontend is a static React SPA hosted on Vercel. It communicates with the Express backend on Railway via HTTPS. All user data and vocabulary are stored in PostgreSQL on Supabase.
+The frontend is a static React SPA hosted on Vercel. It communicates with the Express backend on Render via HTTPS. All user data and vocabulary are stored in PostgreSQL on Neon.
 
 ---
 
@@ -132,7 +134,7 @@ pending_questions (
   created_at    TIMESTAMP DEFAULT NOW()
 )
 
--- Static GRE vocabulary list (~2700 words, seeded on first run)
+-- Static GRE vocabulary list (~1,080 words, seeded on first run)
 vocabulary (
   id          SERIAL PRIMARY KEY,
   word        TEXT UNIQUE NOT NULL,
@@ -223,7 +225,7 @@ Validation: username 3–30 characters, password minimum 6 characters.
 ### Prerequisites
 
 - Node.js 18+
-- A PostgreSQL database (local install or free Supabase project)
+- A PostgreSQL database (local install or a free Neon project)
 
 ### Backend
 
@@ -245,7 +247,7 @@ PORT=3001
 npm run dev
 ```
 
-Starts on http://localhost:3001. On first run it creates all tables and seeds ~2700 vocabulary words automatically.
+Starts on http://localhost:3001. On first run it creates all tables and seeds ~1,080 vocabulary words automatically.
 
 ### Frontend
 
@@ -261,34 +263,28 @@ Starts on http://localhost:5173. API requests are proxied to http://localhost:30
 
 ## Deployment
 
-### Database — Supabase
+### Database — Neon
 
-1. Create a free project at [supabase.com](https://supabase.com)
-2. Go to **Connect** → expand **"Some platforms are IPv4-only"** → select **Session pooler**
-3. Copy the connection string and replace `[YOUR-PASSWORD]`
+1. Create a free project at [neon.com](https://neon.com) (no credit card needed)
+2. Click **Connect** and copy the connection string with **Connection pooling** enabled
 
-> **Important:** Use the Session Pooler URL (`pooler.supabase.com`), not the direct connection URL. Railway uses IPv4 and the direct Supabase URL resolves to IPv6 only.
+The free plan suspends the database after 5 minutes of inactivity and resumes it automatically on the next connection.
 
-### Backend — Railway
+### Backend — Render
 
-1. Create a new project at [railway.app](https://railway.app) connected to this GitHub repo
-2. In **Settings**, set **Root Directory** to `/backend`
-3. In **Settings → Networking**, verify the public domain routes to the port shown in the deploy logs
-4. Add environment variables:
+The backend is defined as a Render Blueprint in [`render.yaml`](render.yaml) (free plan, `backend/` as root directory, region Ohio next to the database).
 
-```env
-DATABASE_URL=<supabase session pooler URL>
-JWT_SECRET=<random secret string>
-FRONTEND_URL=<your Vercel URL>
-NODE_ENV=production
-```
+1. In [Render](https://render.com), click **New → Blueprint** and select this repo
+2. Paste the Neon connection string when asked for `DATABASE_URL`
+
+`JWT_SECRET` is generated automatically, and `FRONTEND_URL` / `NODE_ENV` are set in `render.yaml`. Every push that touches `backend/` redeploys the service.
 
 ### Frontend — Vercel
 
 1. Import this repo at [vercel.com](https://vercel.com)
 2. Set **Root Directory** to `frontend`
 3. Vercel auto-detects Vite — no additional configuration needed
-4. The `frontend/.env.production` file already contains the Railway backend URL as `VITE_API_URL`
+4. The `frontend/.env.production` file already contains the Render backend URL as `VITE_API_URL`
 
 ---
 
@@ -308,4 +304,4 @@ NODE_ENV=production
 
 | Variable | Required | Description |
 |---|---|---|
-| `VITE_API_URL` | No | Backend base URL. Omit for local dev (proxied automatically). Set to Railway URL for production builds. |
+| `VITE_API_URL` | No | Backend base URL. Omit for local dev (proxied automatically). Set to the Render URL for production builds. |

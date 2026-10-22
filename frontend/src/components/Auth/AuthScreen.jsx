@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import styles from './AuthScreen.module.css';
@@ -9,8 +9,19 @@ export default function AuthScreen() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [slow, setSlow] = useState(false);
   const { login, register } = useAuth();
   const navigate = useNavigate();
+
+  // If a request takes a while, the free backend is probably waking up
+  useEffect(() => {
+    if (!loading) {
+      setSlow(false);
+      return;
+    }
+    const t = setTimeout(() => setSlow(true), 3000);
+    return () => clearTimeout(t);
+  }, [loading]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -84,6 +95,11 @@ export default function AuthScreen() {
           </div>
 
           {error && <p className={styles.error}>{error}</p>}
+          {slow && (
+            <p className={styles.hint}>
+              Waking up the server. The first request can take up to a minute.
+            </p>
+          )}
 
           <button className={styles.submitBtn} type="submit" disabled={loading}>
             {loading ? 'Loading…' : mode === 'login' ? 'Sign In' : 'Create Account'}

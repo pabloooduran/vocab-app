@@ -1,6 +1,12 @@
-// In production, VITE_API_URL points to the Railway backend
+// In production, VITE_API_URL points to the Render backend
 // In development, use empty string so Vite's proxy handles /api
 const BASE = (import.meta.env.VITE_API_URL || '') + '/api';
+
+// The free backend instance sleeps when idle. Pinging it as soon as the app
+// opens lets it wake up while the user is still typing their credentials.
+export function warmUpServer() {
+  fetch(`${BASE}/health`).catch(() => {});
+}
 
 async function request(method, path, body, token) {
   const headers = { 'Content-Type': 'application/json' };

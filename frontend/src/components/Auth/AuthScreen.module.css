@@ -99,6 +99,15 @@
   background: white;
 }
 
+.hint {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  background: var(--beige);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--amber);
+}
+
 .error {
   font-size: 0.85rem;
   color: var(--error);
