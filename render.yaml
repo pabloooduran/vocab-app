@@ -1,0 +1,27 @@
+# Render Blueprint: Express API (free plan).
+# The frontend stays on Vercel; the database is an external PostgreSQL (Neon or Supabase).
+# Free instances sleep after 15 minutes without traffic, so the first request can take ~1 minute.
+services:
+  - type: web
+    name: vocab-app-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci --omit=dev
+    startCommand: node src/app.js
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    buildFilter:
+      paths:
+        - backend/**
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: FRONTEND_URL
+        value: https://vocab-app-two-pi.vercel.app
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false # pasted in the Render dashboard, never committed
