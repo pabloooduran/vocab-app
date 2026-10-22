@@ -6,6 +6,7 @@ services:
     name: vocab-app-api
     runtime: node
     plan: free
+    region: ohio # same area as the Neon database (AWS us-east-2)
     rootDir: backend
     buildCommand: npm ci --omit=dev
     startCommand: node src/app.js
