@@ -158,7 +158,7 @@ router.put('/save', async (req, res) => {
 router.get('/me', async (req, res) => {
   try {
     const result = await query(
-      'SELECT id, username, current_streak, max_streak, total_correct, total_incorrect FROM users WHERE id = $1',
+      'SELECT id, username, is_guest, current_streak, max_streak, total_correct, total_incorrect FROM users WHERE id = $1',
       [req.userId]
     );
     const user = result.rows[0];

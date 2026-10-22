@@ -37,6 +37,9 @@ async function initializeDatabase() {
     )
   `);
 
+  // Demo accounts created by "Try the demo" (removed automatically after a few days)
+  await query('ALTER TABLE users ADD COLUMN IF NOT EXISTS is_guest BOOLEAN DEFAULT FALSE');
+
   await query(`
     CREATE TABLE IF NOT EXISTS word_stats (
       id SERIAL PRIMARY KEY,
@@ -71,7 +74,19 @@ async function initializeDatabase() {
   `);
 
   await seedVocabulary();
+  await deleteOldGuests();
   console.log('Database initialized.');
+}
+
+const GUEST_TTL_DAYS = 7;
+
+// Guest accounts (and, via ON DELETE CASCADE, their stats) are removed after GUEST_TTL_DAYS
+async function deleteOldGuests() {
+  const result = await query(
+    `DELETE FROM users WHERE is_guest AND created_at < NOW() - make_interval(days => $1)`,
+    [GUEST_TTL_DAYS]
+  );
+  if (result.rowCount > 0) console.log(`Removed ${result.rowCount} expired guest account(s).`);
 }
 
 async function seedVocabulary() {
@@ -126,4 +141,4 @@ async function seedVocabulary() {
   }
 }
 
-module.exports = { query, initializeDatabase };
+module.exports = { query, initializeDatabase, deleteOldGuests, GUEST_TTL_DAYS };

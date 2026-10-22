@@ -41,6 +41,15 @@ export function AuthProvider({ children }) {
     return data.user;
   }
 
+  // Creates a temporary guest account so visitors can try the app without signing up
+  async function tryDemo() {
+    const data = await api.post('/auth/guest');
+    localStorage.setItem('gre_token', data.token);
+    setToken(data.token);
+    setUser(data.user);
+    return data.user;
+  }
+
   function logout() {
     localStorage.removeItem('gre_token');
     setToken(null);
@@ -52,7 +61,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, token, loading, login, register, tryDemo, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

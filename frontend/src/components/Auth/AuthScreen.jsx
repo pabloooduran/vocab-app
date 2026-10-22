@@ -10,7 +10,7 @@ export default function AuthScreen() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [slow, setSlow] = useState(false);
-  const { login, register } = useAuth();
+  const { login, register, tryDemo } = useAuth();
   const navigate = useNavigate();
 
   // If a request takes a while, the free backend is probably waking up
@@ -41,6 +41,19 @@ export default function AuthScreen() {
     }
   }
 
+  async function handleDemo() {
+    setError('');
+    setLoading(true);
+    try {
+      await tryDemo();
+      navigate('/');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.card}>
@@ -48,6 +61,15 @@ export default function AuthScreen() {
           <h1 className={styles.title}>GRE Vocab</h1>
           <p className={styles.subtitle}>Master the words that matter</p>
         </div>
+
+        <div className={styles.demo}>
+          <button className={styles.demoBtn} type="button" onClick={handleDemo} disabled={loading}>
+            {loading ? 'Loading…' : 'Try the demo'}
+          </button>
+          <p className={styles.demoNote}>No sign-up needed: starts a temporary guest account.</p>
+        </div>
+
+        <div className={styles.divider}><span>or use your account</span></div>
 
         <div className={styles.tabs}>
           <button

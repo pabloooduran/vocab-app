@@ -39,8 +39,14 @@ export default function Dashboard() {
 
       <main className={styles.main}>
         <div className={styles.welcome}>
-          <h2 className={styles.welcomeText}>Welcome back, {user?.username}</h2>
-          <p className={styles.welcomeSub}>Ready to expand your vocabulary?</p>
+          <h2 className={styles.welcomeText}>
+            {user?.is_guest ? 'Welcome to the demo' : `Welcome back, ${user?.username}`}
+          </h2>
+          <p className={styles.welcomeSub}>
+            {user?.is_guest
+              ? 'You are using a temporary guest account. Press Start Practicing to begin.'
+              : 'Ready to expand your vocabulary?'}
+          </p>
         </div>
 
         <div className={styles.statsRow}>

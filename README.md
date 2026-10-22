@@ -15,6 +15,7 @@ A web application for studying english vocabulary through adaptive multiple-choi
 - **Streak tracking** — Tracks your current and best consecutive correct answer streak, with visual feedback that intensifies as your streak grows.
 - **Per-word statistics** — See your correct/incorrect counts for every word you have studied, with filters (all, needs work, mastered).
 - **Multi-user** — Each user has their own account, progress, and statistics.
+- **Try the demo** — One click creates a temporary guest account, so visitors can play without signing up. Guest accounts and their stats are deleted automatically after 7 days.
 - **Cross-device** — Works on any device with a browser. Progress is stored in the cloud.
 
 ---
@@ -183,6 +184,7 @@ All `/api/game/*` and `/api/stats/*` endpoints require an `Authorization: Bearer
 |---|---|---|---|
 | POST | `/api/auth/register` | `{ username, password }` | Create account, returns JWT and user object |
 | POST | `/api/auth/login` | `{ username, password }` | Login, returns JWT and user object |
+| POST | `/api/auth/guest` | — | Creates a temporary guest account (7 days), returns JWT and user object |
 
 Validation: username 3–30 characters, password minimum 6 characters.
 
